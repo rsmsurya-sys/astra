@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARUNA STATION: ECHO PROTOCOL - Lunar Acoustic Survival</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/radar.css">
+</head>
+<body class="crt-overlay">
+  <!-- Top Navigation & Global Mission Telemetry Bar -->
+  <header id="hud-header">
+    <div class="hud-left">
+      <div class="logo-group">
+        <span class="pulse-indicator"></span>
+        <span class="hud-title">ARUNA STATION</span>
+        <span class="hud-sub">ECHO PROTOCOL // LUNAR 2047</span>
+      </div>
+      <div class="mission-clock-container">
+        <span class="label">MISSION CLOCK:</span>
+        <span id="mission-clock" class="mono-value">89:59:42</span>
+      </div>
+    </div>
+
+    <div class="hud-center-meters">
+      <div class="meter-box">
+        <span class="meter-label">O₂ BUFFER</span>
+        <div class="meter-bar-track">
+          <div id="o2-bar" class="meter-fill" style="width: 100%;"></div>
+        </div>
+        <span id="o2-val" class="meter-num">100%</span>
+      </div>
+
+      <div class="meter-box">
+        <span class="meter-label">BATTERY</span>
+        <div class="meter-bar-track">
+          <div id="battery-bar" class="meter-fill cyan" style="width: 100%;"></div>
+        </div>
+        <span id="battery-val" class="meter-num">100%</span>
+      </div>
+
+      <div class="meter-box">
+        <span class="meter-label">SONAR PING</span>
+        <div class="meter-bar-track">
+          <div id="ping-bar" class="meter-fill yellow" style="width: 100%;"></div>
+        </div>
+        <span id="ping-status" class="meter-num">READY</span>
+      </div>
+    </div>
+
+    <div class="hud-right">
+      <button id="btn-codex" class="hud-btn" title="Open Narrative Archive & Dossiers">
+        <span class="btn-icon">📁</span> CODEX & LOGS
+      </button>
+      <button id="btn-sound-toggle" class="hud-btn" title="Toggle Audio Synthesis">
+        <span id="sound-icon">🔊</span> AUDIO: ON
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Dynamic Stage Viewport -->
+  <main id="app-container">
+
+    <!-- VIEW 0: CINEMATIC INTRO BRIEFING -->
+    <section id="view-intro" class="view-panel active">
+      <div class="terminal-card intro-terminal">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">📡 MESSAGE RECEIVED — MOON BASE EMERGENCY</span>
+          <span class="terminal-badge">72 HOURS OF SILENCE!</span>
+        </div>
+
+        <div class="terminal-body">
+          <div class="briefing-meta">
+            <div><span class="key">📅 DATE:</span> March 15, 2047</div>
+            <div><span class="key">📍 PLACE:</span> Aruna Moon Base (South Pole)</div>
+            <div><span class="key">🧑‍🚀 YOUR NAME:</span> Dr. Aiden Okafor — Rescue Commander</div>
+            <div><span class="key">⚠️ PROBLEM:</span> Moon base-la something went wrong. 6 people stuck!</div>
+          </div>
+
+          <div class="audio-wiretap-box">
+            <div class="wiretap-controls">
+              <button id="btn-play-briefing" class="action-btn cyan-btn">
+                ▶ CAPTAIN CHEN LAST MESSAGE KEKKU
+              </button>
+              <div id="briefing-wave-viz" class="audio-viz-canvas-container">
+                <canvas id="briefing-viz" width="300" height="40"></canvas>
+              </div>
+            </div>
+            <div id="briefing-transcript" class="transcript-stream">
+              "Houston, we had to make a choice. The storm was coming faster than predicted. We diverted resources from the research lab to the power system... It was the right call at the time. But then we discovered something in the deep crater that changed everything. We needed that lab. Now the power is failing. And something... something is moving through the station. Every decision matters. Every choice has a cost."
+            </div>
+          </div>
+
+          <div class="objectives-list">
+            <h3>🎯 UNNODA MISSION</h3>
+            <ul>
+              <li>🔴 <strong>RESCUE:</strong> Sarah Chen + 5 astronauts-a kandu pidichi save pannu.</li>
+              <li>💾 <strong>DATA RECOVER:</strong> Dr. Murthy-oda alien discovery drive-a eduthu va.</li>
+              <li>👾 <strong>ALIEN:</strong> Moon base-la irukka alien creature-oda deal pannu.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="terminal-footer">
+          <button id="btn-start-strategy" class="start-btn pulse-glow">
+            🚀 MISSION PLAN SEIYYA NEXT →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 1: STRATEGY & DECISION MATRIX -->
+    <section id="view-strategy" class="view-panel">
+      <div class="strategy-layout">
+        <div class="strategy-left">
+          <div class="panel-header">
+            <h2>🛸 PHASE 1: MISSION PLAN PANNUNGA!</h2>
+            <p class="subtitle">Keezhay 3 questions irukku. Unnoda answers-a select pannu. Adha based-a unna mission change aagum! Think carefully! 🤔</p>
+          </div>
+
+          <!-- Decision 1: Entry Strategy -->
+          <div class="decision-block" id="block-entry">
+            <div class="decision-label">
+              <span class="step-num">01</span> 🚪 MOON BASE-LA EPDI ENTER PANNUVA?
+            </div>
+            <div class="decision-options">
+              <div class="option-card" data-group="entry" data-val="A">
+                <div class="card-radio"></div>
+                <div class="card-content">
+                  <h4>⚡ OPTION A: MAIN DOOR (Neraya Fast)</h4>
+                  <p>Vera level fast! Aana electric problem irukku — unnoda sonar (sound radar) sariya work pannaamal poovidum. Dark-la navigate panradhku kastham aagum!</p>
+                  <div class="tag-row">
+                    <span class="tag warn">⚠️ Electric Problem</span>
+                    <span class="tag">✅ Super Fast</span>
+                    <span class="tag bad">❌ Radar Glitch</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="option-card selected" data-group="entry" data-val="B">
+                <div class="card-radio"></div>
+                <div class="card-content">
+                  <h4>🚪 OPTION B: SIDE DOOR (Carefully)</h4>
+                  <p>Konjam slow, aana safe route! Air system working-a irukku. Aana alien creature unna early-a detect pannudum. Shhh... quiet-a move pannanum!</p>
+                  <div class="tag-row">
+                    <span class="tag good">✅ Air Safe</span>
+                    <span class="tag warn">⚠️ Alien Early Alert</span>
+                    <span class="tag">🤫 Be Quiet!</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decision 2: Resource Allocation -->
+          <div class="decision-block" id="block-resources">
+            <div class="decision-label">
+              <span class="step-num">02</span> RESOURCE & GEAR ALLOCATION (100 PTS)
+            </div>
+            <div class="decision-options three-cols">
+              <div class="option-card" data-group="resources" data-val="A">
+                <div class="card-radio"></div>
+                <div class="card-content">
+                  <h4>👥 PEOPLE FIRST! (60 pts)</h4>
+                  <p>6 space suits + medical kit eduthu poga. Ellaarayum save pannalaam! Aana unnoda sound radar weak-a irukkum. Navigation kastham aagum.</p>
+                  <div class="tag-row"><span class="tag good">✅ 6 People Save</span><span class="tag bad">❌ Weak Radar</span></div>
+                </div>
+              </div>
+
+              <div class="option-card selected" data-group="resources" data-val="B">
+                <div class="card-radio"></div>
+                <div class="card-content">
+                  <h4>⚖️ BALANCED! (50 pts)</h4>
+                  <p>4 suits + better radar + data container. Mix mix — people-aiyum save pannalaam, data-aiyum eduthu vara mudiyum! Recommended choice! 👍</p>
+                  <div class="tag-row"><span class="tag good">✅ 4 People Save</span><span class="tag">💾 Data Ready</span></div>
+                </div>
+              </div>
+
+              <div class="option-card" data-group="resources" data-val="C">
+                <div class="card-radio"></div>
+                <div class="card-content">
+                  <h4>🛡️ SELF PROTECT! (40 pts)</h4>
+                  <p>2 strong suits + best radar + max battery. Unnaku super protection! Aana most people-a save panna mudiyaadhu. Hard choice... 😬</p>
+                  <div class="tag-row"><span class="tag warn">⚠️ Only 2 Save</span><span class="tag good">✅ Best Protection</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decision 3: Mission Priority -->
+          <div class="decision-block" id="block-priorities">
+            <div class="decision-label">
+              <span class="step-num">03</span> 🎯 UNNODA MAIN GOAL ENNA? (2 choose pannu!)
+            </div>
+            <div class="priority-checkbox-row">
+              <label class="priority-box checked" data-pri="A">
+                <input type="checkbox" checked disabled>
+                <div class="pri-info">
+                  <strong>🧑‍🚀 GOAL A: PEOPLE SAVE PANNU</strong>
+                  <span>Astronauts-a find pannitu safely rescue pannu.</span>
+                </div>
+              </label>
+
+              <label class="priority-box checked" data-pri="B">
+                <input type="checkbox" checked>
+                <div class="pri-info">
+                  <strong>💾 GOAL B: ALIEN DATA RECOVER PANNU</strong>
+                  <span>Dr. Murthy kandu piditha alien signal drive-a eduthu va.</span>
+                </div>
+              </label>
+
+              <label class="priority-box" data-pri="C">
+                <input type="checkbox">
+                <div class="pri-info">
+                  <strong>⚛️ GOAL C: MOON BASE SAVE PANNU</strong>
+                  <span>Reactor-a fix pannitu moon base-a future-ku ready-a pannu.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strategy Right: 3S Matrix Radar Profile -->
+        <div class="strategy-right">
+          <div class="terminal-card profile-card">
+            <div class="terminal-header">
+              <span class="terminal-title">MISSION PROFILE CALCULATOR</span>
+            </div>
+            <div class="terminal-body">
+              <div class="profile-badge-box">
+                <div class="profile-archetype" id="profile-name">THE IDEALIST</div>
+                <div class="profile-sub" id="profile-sub">HIGH SCIENCE // BALANCED SURVIVAL // HIGH SOCIETY</div>
+              </div>
+
+              <div class="matrix-bars">
+                <div class="bar-group">
+                  <div class="bar-header">
+                    <span>SCIENCE (Discovery)</span>
+                    <span id="score-sci">75%</span>
+                  </div>
+                  <div class="meter-bar-track"><div id="bar-sci" class="meter-fill cyan" style="width: 75%;"></div></div>
+                </div>
+
+                <div class="bar-group">
+                  <div class="bar-header">
+                    <span>SURVIVAL (Tactical Resilience)</span>
+                    <span id="score-sur">60%</span>
+                  </div>
+                  <div class="meter-bar-track"><div id="bar-sur" class="meter-fill yellow" style="width: 60%;"></div></div>
+                </div>
+
+                <div class="bar-group">
+                  <div class="bar-header">
+                    <span>SOCIETY (Crew Humanity)</span>
+                    <span id="score-soc">85%</span>
+                  </div>
+                  <div class="meter-bar-track"><div id="bar-soc" class="meter-fill green" style="width: 85%;"></div></div>
+                </div>
+              </div>
+
+              <div class="profile-narrative-summary" id="profile-desc">
+                Your profile favors human life and recovering ancient knowledge. Entry via Airlock 3 ensures environmental stability, but demands extreme acoustic stealth.
+              </div>
+
+              <button id="btn-launch-mission" class="launch-btn pulse-glow">
+                INITIATE LUNAR DESCENT & DEPLOY →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: SURVIVAL RADAR SIMULATOR (CORE GAMEPLAY) -->
+    <section id="view-survival" class="view-panel">
+      <div class="radar-workspace">
+        <!-- 3D & Radar Dual Viewport Container -->
+        <div class="radar-canvas-container" id="main-viewport-container">
+          <!-- 3D Realistic Station Viewport -->
+          <div id="viewport-3d-wrapper" class="viewport-3d-active">
+            <!-- Canvas is attached by threeEngine.js -->
+            
+            <!-- Astronaut Helmet Visor Overlay -->
+            <div id="helmet-visor-hud">
+              <div class="visor-glass-curve"></div>
+              <div class="visor-vignette"></div>
+              
+              <!-- Helmet Top Telemetry -->
+              <div class="visor-top-bar">
+                <div class="visor-tag">🪐 HELMET DISPLAY ON</div>
+                <div class="visor-compass" id="visor-compass">
+                  <span class="compass-marker">◀</span>
+                  <span id="compass-bearing">DIRECTION: 000°</span>
+                  <span class="compass-marker">▶</span>
+                </div>
+                <div class="visor-tag warn-pulse" id="visor-hazard-status">⚠️ AIR LEAK! DANGER!</div>
+              </div>
+
+              <!-- Center Holographic Reticle / Aiming Crosshair -->
+              <div class="visor-reticle">
+                <div class="reticle-circle"></div>
+                <div class="reticle-dot"></div>
+                <div class="reticle-range" id="reticle-range">🔊 SOUND SCANNER: ON</div>
+              </div>
+
+              <!-- 3D Floating Interaction Prompt -->
+              <div id="interaction-prompt-3d" class="interaction-prompt-3d hidden">
+                <span class="key-badge">E</span>
+                <span id="prompt-3d-text">👋 PESI / INTERACT</span>
+              </div>
+
+              <!-- Top-Right 3D Controls (Cam, Light, Viewmode) -->
+              <div class="visor-controls-overlay">
+                <button id="btn-toggle-cam" class="visor-btn" title="Camera view change (V key)">
+                  <span class="visor-btn-icon">📷</span> <span id="cam-mode-text">CAMERA: EYES</span>
+                </button>
+                <button id="btn-toggle-flashlight" class="visor-btn" title="Torch on/off (F key)">
+                  <span class="visor-btn-icon">🔦</span> <span id="light-mode-text">TORCH: ON 💡</span>
+                </button>
+                <button id="btn-toggle-viewmode" class="visor-btn active-mode" title="Switch between 3D play and Map view">
+                  <span class="visor-btn-icon">🌐</span> <span id="view-mode-text">3D GAME MODE</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tactical Radar Canvas (Can dock as minimap in 3D or expand to full 2D) -->
+          <div id="mini-radar-wrapper" class="mini-radar-docked">
+            <div class="mini-radar-header">
+              <span class="radar-tag">🗺️ MAP VIEW</span>
+              <button id="btn-expand-radar" class="mini-radar-expand-btn" title="Map big-a paarunga">⤢ BIG MAP</button>
+            </div>
+            <canvas id="radar-canvas" width="900" height="600"></canvas>
+          </div>
+          
+          <!-- On-screen Sonar Ping Controls Overlay -->
+          <div class="sonar-overlay-hud">
+            <div class="hud-sector" id="current-sector-name">📍 LOCATION: SIDE DOOR ENTRY</div>
+            <div class="controls-hint">
+              <span>⬆️⬇️⬅️➡️ or [WASD] — Walk</span> • 
+              <span>🖱️ Mouse — Look around</span> • 
+              <span>[SPACE] — Sound Ping</span> • 
+              <span>[E] — Talk / Use</span> • 
+              <span>[F] — Torch On/Off</span>
+            </div>
+            <button id="btn-trigger-ping" class="ping-trigger-btn">
+              <span class="sonar-ring"></span>
+              🔊 SOUND PING ANUPPU [SPACE]
+            </button>
+          </div>
+
+          <!-- Entity Proximity Sensor Alert -->
+          <div id="entity-warning" class="entity-proximity-banner hidden">
+            ⚠️ DANGER! ALIEN UNNA SOUND KETTUCHU! QUIET-A MOVE PANNU! 🏃
+          </div>
+        </div>
+
+        <!-- Interactive Right Sidebar (Logs, Crew Status, Objective Checklist) -->
+        <div class="survival-sidebar">
+          <!-- Active Mission Tracker -->
+          <div class="sidebar-card">
+            <h3>🎯 UNNA MISSIONS</h3>
+            <ul class="task-checklist">
+              <li id="task-sarah" class="task-item">
+                <span class="status-dot"></span>
+                <span>🧑‍🚀 Sarah Chen-a kandu pidi (Command Room)</span>
+              </li>
+              <li id="task-data" class="task-item">
+                <span class="status-dot"></span>
+                <span>💾 Alien data drive eduthu va (Deep Lab)</span>
+              </li>
+              <li id="task-stasis" class="task-item">
+                <span class="status-dot"></span>
+                <span>❄️ Sleeping pod-a wake up pannu (Deck B)</span>
+              </li>
+              <li id="task-reactor" class="task-item">
+                <span class="status-dot"></span>
+                <span>👾 Alien-oda face pannunga (Reactor Room)</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Crew Roster Status -->
+          <div class="sidebar-card">
+            <h3>CREW TELEMETRY</h3>
+            <div class="crew-mini-list">
+              <div class="crew-mini-row" id="crew-chen">
+                <span class="crew-name">Cpt. Sarah Chen</span>
+                <span class="crew-status warn">CRITICAL</span>
+              </div>
+              <div class="crew-mini-row" id="crew-murthy">
+                <span class="crew-name">Dr. James Murthy</span>
+                <span class="crew-status">IN LAB</span>
+              </div>
+              <div class="crew-mini-row" id="crew-tanaka">
+                <span class="crew-name">Eng. Yuki Tanaka</span>
+                <span class="crew-status">ENGINEERING</span>
+              </div>
+              <div class="crew-mini-row" id="crew-patel">
+                <span class="crew-name">Dr. Kavya Patel</span>
+                <span class="crew-status bad">SUIT BREACH</span>
+              </div>
+              <div class="crew-mini-row" id="crew-stasis">
+                <span class="crew-name">Vance & Rostova</span>
+                <span class="crew-status stasis">STASIS (POD 3/4)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Acoustic Spectrogram -->
+          <div class="sidebar-card">
+            <h3>🔊 ALIEN SOUND DETECTOR</h3>
+            <canvas id="spectrogram-canvas" width="260" height="70"></canvas>
+            <div class="spectro-readout">
+              <span>SOUND: <strong id="spec-freq">432.1 Hz</strong></span>
+              <span>ALIEN STATUS: <strong id="spec-state" class="cyan-text">😴 Thoonguthu</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: CLIMAX CONFRONTATION INTERACTION MODAL -->
+    <div id="modal-confrontation" class="modal-backdrop hidden">
+      <div class="modal-dialog confrontation-modal">
+        <div class="modal-header">
+          <h2>CENTRAL TOKAMAK REACTOR // THE ENTITY AWAKENS</h2>
+        </div>
+        <div class="modal-body">
+          <div class="confrontation-art">
+            <div class="entity-orb-anim"></div>
+          </div>
+          <p class="confrontation-text" id="confront-narrative">
+            You step into the reactor core. Above the pulsing magnetic confinement torus, the Entity hangs suspended in the air—a shimmering, crystalline cloud vibrating with sound. It doesn't roar. It watches. It mirrors your breathing.
+          </p>
+          <div class="confrontation-actions">
+            <button id="btn-choice-fight" class="climax-btn red-btn">
+              <strong>ATTACK / FIRE SONIC DISPERSAL WEAPON</strong>
+              <span>Use tactical kinetic concussions to force it away.</span>
+            </button>
+            <button id="btn-choice-communicate" class="climax-btn cyan-btn">
+              <strong>COMMUNICATE / HARMONIC RESONANCE (432 Hz)</strong>
+              <span>Modulate your sonar ping into a musical fifth chord. Attempt first contact.</span>
+            </button>
+            <button id="btn-choice-overload" class="climax-btn yellow-btn">
+              <strong>MANUAL REACTOR OVERLOAD SACRIFICE</strong>
+              <span>Turn the scram valve. Sacrifice yourself to destroy the core and save the crew.</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 4: DEBRIEF & ENDING RESOLUTION -->
+    <section id="view-ending" class="view-panel">
+      <div class="ending-container">
+        <div class="terminal-card ending-card">
+          <div class="terminal-header">
+            <span class="terminal-title">MISSION DEBRIEFING // FINAL VERDICT</span>
+            <span id="ending-badge" class="terminal-badge">ENDING 4 OF 6</span>
+          </div>
+
+          <div class="ending-body">
+            <div class="ending-hero">
+              <h1 id="ending-title">ENDING 4: COMMUNICATION</h1>
+              <div class="achievement-pill" id="ending-achievement">
+                🏆 ACHIEVEMENT UNLOCKED: "FIRST CONTACT"
+              </div>
+            </div>
+
+            <div class="ending-epilogue-text" id="ending-text">
+              <!-- Populated dynamically based on game state -->
+            </div>
+
+            <div class="score-breakdown-grid">
+              <div class="score-metric">
+                <span class="metric-title">MISSION SCORE</span>
+                <span class="metric-val" id="final-score">950</span>
+              </div>
+              <div class="score-metric">
+                <span class="metric-title">CREW EXTRACTED</span>
+                <span class="metric-val" id="final-crew">5 / 6</span>
+              </div>
+              <div class="score-metric">
+                <span class="metric-title">MERIDIAN DATA</span>
+                <span class="metric-val green-text" id="final-data">SECURED</span>
+              </div>
+              <div class="score-metric">
+                <span class="metric-title">ENTITY STATUS</span>
+                <span class="metric-val cyan-text" id="final-entity">PACIFIED / CONTACT</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="terminal-footer ending-actions">
+            <button id="btn-replay" class="action-btn">
+              ↻ PLAY AGAIN (TRY DIFFERENT CHOICES)
+            </button>
+            <button id="btn-view-all-endings" class="action-btn cyan-btn">
+              📖 VIEW ALL 6 ENDINGS IN CODEX
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- NARRATIVE ARCHIVE & CODEX MODAL (All Dossiers, 31 Logs, Diagrams) -->
+  <div id="modal-codex" class="modal-backdrop hidden">
+    <div class="modal-dialog codex-dialog">
+      <div class="codex-header">
+        <div class="codex-tabs">
+          <button class="codex-tab-btn active" data-tab="tab-logs">31 AUDIO LOG ARCHIVE</button>
+          <button class="codex-tab-btn" data-tab="tab-crew">CREW DOSSIERS</button>
+          <button class="codex-tab-btn" data-tab="tab-endings">6 ENDINGS BIBLE</button>
+          <button class="codex-tab-btn" data-tab="tab-story">NARRATIVE GUIDE</button>
+        </div>
+        <button id="btn-close-codex" class="close-btn">✕ CLOSE</button>
+      </div>
+
+      <div class="codex-content">
+        <!-- TAB 1: AUDIO LOG ARCHIVE -->
+        <div id="tab-logs" class="codex-tab-pane active">
+          <div class="logs-layout">
+            <div class="logs-sidebar" id="logs-list">
+              <!-- Dynamically populated log entries -->
+            </div>
+            <div class="log-display" id="log-display">
+              <div class="log-header-info">
+                <h3 id="display-log-title">SELECT AN AUDIO LOG</h3>
+                <div class="log-meta-tag" id="display-log-meta">-</div>
+              </div>
+              <button id="btn-play-log-audio" class="action-btn cyan-btn">
+                ▶ SYNTHESIZE & PLAY AUDIO LOG
+              </button>
+              <div class="log-body-text" id="display-log-text">
+                Click any log on the left to read and hear the restored transcript from Aruna Base.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: CREW DOSSIERS -->
+        <div id="tab-crew" class="codex-tab-pane">
+          <div class="dossiers-grid" id="dossiers-container">
+            <!-- Populated from narrativeData.js -->
+          </div>
+        </div>
+
+        <!-- TAB 3: ENDINGS BIBLE -->
+        <div id="tab-endings" class="codex-tab-pane">
+          <div class="endings-grid" id="endings-bible-container">
+            <!-- Populated from narrativeData.js -->
+          </div>
+        </div>
+
+        <!-- TAB 4: NARRATIVE GUIDE -->
+        <div id="tab-story" class="codex-tab-pane">
+          <div class="story-guide-text">
+            <h2>ARUNA STATION: ECHO PROTOCOL</h2>
+            <p><strong>Core Concept:</strong> Every choice in mission planning cascades into your acoustic survival on the Moon. Sound is both your only sight in the dark, and the signal that awakens an ancient consciousness.</p>
+            <p><strong>Science-Survival-Society Matrix:</strong> Strategy decisions aren't linear; they generate a 3D personality vector defining your moral standing as a commander.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terminal Audio Log Interaction Popup in Gameplay -->
+  <div id="terminal-interaction-modal" class="modal-backdrop hidden">
+    <div class="modal-dialog terminal-modal">
+      <div class="modal-header">
+        <h3 id="interact-title">STATION TERMINAL</h3>
+        <button id="btn-close-terminal" class="close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="interact-desc">Accessing terminal data...</p>
+        <div id="interact-action-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3D Graphics & Game Engine Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/narrativeData.js"></script>
+  <script src="js/radarEngine.js"></script>
+  <script src="js/threeEngine.js"></script>
+  <script src="js/gameState.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
